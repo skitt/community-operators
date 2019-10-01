@@ -12,9 +12,9 @@ metadata:
           },
           "spec": {
             "size": 3,
-            "submariner_namespace": "submariner",
-            "submariner_clusterid": "clusterid",
-            "submariner_debug": "false",
+            "namespace": "submariner",
+            "clusterID": "clusterid",
+            "debug": "false",
             "image": "quay.io/submariner/submariner-routeagent:latest"
           }
         },
@@ -26,21 +26,21 @@ metadata:
           },
           "spec": {
             "size":3,
-            "submariner_namespace": "submariner",
-            "submariner_servicecidr": "100.95.0.0/16",
-            "submariner_clustercidr": "10.245.0.0/16",
-            "submariner_token": "SECRET TO FILL IN",
-            "submariner_clusterid": "clusterid",
-            "submariner_colorcodes": "blue",
-            "submariner_debug": "false",
-            "submariner_natenabled": "false",
-            "submariner_broker": "k8s",
-            "broker_k8s_apiserver":"URL TO FILL IN",
-            "broker_k8s_apiservertoken": "SECRET TO FILL IN",
-            "broker_k8s_remotenamespace": "submariner",
-            "broker_k8s_ca": "CA TO FILL IN",
-            "ce_ipsec_psk": "SHARED PSK",
-            "ce_ipsec_debug": "false",
+            "namespace": "submariner",
+            "serviceCIDR": "100.95.0.0/16",
+            "clusterCIDR": "10.245.0.0/16",
+            "token": "SECRET TO FILL IN",
+            "clusterID": "clusterid",
+            "colorCodes": "blue",
+            "debug": "false",
+            "natEnabled": "false",
+            "broker": "k8s",
+            "brokerK8sApiServer":"URL TO FILL IN",
+            "brokerK8sApiServerToken": "SECRET TO FILL IN",
+            "brokerK8sRemoteNamespace": "submariner",
+            "brokerK8sCA": "CA TO FILL IN",
+            "ceIpsecPSK": "SHARED PSK",
+            "ceIpsecDebug": "false",
             "ceIpsecIkePort": 500,
             "ceIpsecNattPort": 4500,
             "image": "quay.io/submariner/submariner:latest"
@@ -76,49 +76,49 @@ spec:
         path: size
       - description: The managed namespace
         displayName: Namespace
-        path: submariner_namespace
+        path: namespace
       - description: The service CIDR
         displayName: Service CIDR
-        path: submariner_servicecidr
+        path: serviceCIDR
       - description: The cluster CIDR
         displayName: Cluster CIDR
-        path: submariner_clustercidr
+        path: clusterCIDR
       - description: The broker token
         displayName: Broker token
-        path: submariner_token
+        path: token
       - description: The cluster identifier
         displayName: Cluster id
-        path: submariner_clusterid
+        path: clusterID
       - description: The Submariner color codes
         displayName: Color codes
-        path: submariner_colorcodes
+        path: colorCodes
       - description: Whether to provide debug information
         displayName: Debug logs
-        path: submariner_debug
+        path: debug
       - description: Whether to enable NAT
         displayName: NAT
-        path: submariner_natenabled
+        path: natEnabled
       - description: The type of Submariner broker
         displayName: Broker type
-        path: submariner_broker
+        path: broker
       - description: The URL of the broker API server
         displayName: Broker API server URL
-        path: broker_k8s_apiserver
+        path: brokerK8sApiServer
       - description: The broker token
         displayName: Broker token
-        path: broker_k8s_apiservertoken
+        path: brokerK8sApiServerToken
       - description: The namespace of the Submariner broker
         displayName: Broker namespace
-        path: broker_k8s_remotenamespace
+        path: brokerK8sRemoteNamespace
       - description: The Submariner broker certificate authority
         displayName: Broker CA
-        path: broker_k8s_ca
+        path: brokerK8sCA
       - description: The shared PSK
         displayName: PSK
-        path: ce_ipsec_psk
+        path: ceIpsecPSK
       - description: Whether to provide IPsec debug logs
         displayName: IPsec debug logs
-        path: ce_ipsec_debug
+        path: ceIpsecDebug
       - description: The IPsec IKE port (500 usually)
         displayName: IPsec IKE port
         path: ceIpsecIkePort
@@ -139,13 +139,13 @@ spec:
         path: size
       - description: The managed namespace
         displayName: Namespace
-        path: submariner_namespace
+        path: namespace
       - description: The cluster identifier
         displayName: Cluster id
-        path: submariner_clusterid
+        path: clusterID
       - description: Whether to provide debug information
         displayName: Debug logs
-        path: submariner_debug
+        path: debug
       - description: The container image to use
         displayName: Container image
         path: image
@@ -178,37 +178,37 @@ spec:
 
     ## Deploying route agents
     Route agents are deployed using the RouteAgent CR. The following values can be specified:
-      * `submariner_namespace`: the namespace to install in;
-      * `submariner_clusterid`: the Submariner cluster ID;
-      * `submariner_debug`: `'true'` to enable logging debugging information;
+      * `namespace`: the namespace to install in;
+      * `clusterID`: the Submariner cluster ID;
+      * `debug`: `'true'` to enable logging debugging information;
       * `image`: the container image to use.
 
     ## Deploying the engine
     The engine is deployed using the Submariner CR. The following values can be specified:
-      * `submariner_namespace`: the namespace to install in;
-      * `submariner_servicecidr`: the service CIDR;
-      * `submariner_clustercidr`: the cluster CIDR;
-      * `submariner_token`: the Submariner token
+      * `namespace`: the namespace to install in;
+      * `serviceCIDR`: the service CIDR;
+      * `clusterCIDR`: the cluster CIDR;
+      * `token`: the Submariner token
         (`kubectl -n submariner get secrets -o jsonpath="{.items[?(@.metadata.annotations['kubernetes\.io/service-account\.name']=='submariner-client')].data.token}"|base64 --decode`
         on the broker cluster, assuming the broker is running in the `submariner` namespace — replace the two
         `submariner` instances as appropriate);
-      * `submariner_clusterid`: the Submariner cluster ID;
-      * `submariner_colorcodes`: the Submariner color code(s) for this cluster;
-      * `submariner_debug`: `'true'` to enable logging debugging information;
-      * `submariner_natenabled`: `'true'` to enable NAT, for use in clusters with 1:1 NAT between instances (such as
+      * `clusterID`: the Submariner cluster ID;
+      * `colorCodes`: the Submariner color code(s) for this cluster;
+      * `debug`: `'true'` to enable logging debugging information;
+      * `natEnabled`: `'true'` to enable NAT, for use in clusters with 1:1 NAT between instances (such as
         AWS VPC);
-      * `submariner_broker`: this must be `k8s` currently;
-      * `broker_k8s_apiserver`: the broker’s API server URL
+      * `broker`: this must be `k8s` currently;
+      * `brokerK8sApiServer`: the broker’s API server URL
         (`kubectl -n default get endpoints kubernetes -o jsonpath="{.subsets[0].addresses[0].ip}:{.subsets[0].ports[?(@.name=='https')].port}"`
         on the broker cluster);
-      * `broker_k8s_apiservertoken`: the broker’s API server token (same as `submariner_token`);
-      * `broker_k8s_remotenamespace`: the broker’s namespace;
-      * `broker_k8s_ca`: the broker’s certificate authority
+      * `brokerK8sApiServerToken`: the broker’s API server token (same as `submariner_token`);
+      * `brokerK8sRemoteNamespace`: the broker’s namespace;
+      * `brokerK8sCA`: the broker’s certificate authority
         (`kubectl -n submariner get secrets -o jsonpath="{.items[?(@.metadata.annotations['kubernetes\.io/service-account\.name']=='submariner-client')].data['ca\.crt']}"`
         on the broker cluster, assuming the broker is running in the `submariner` namespace — replace the two
         `submariner` instances as appropriate);
-      * `ce_ipsec_psk`: the IPsec PSK (which must be identical in all route agents across the cluster);
-      * `ce_ipsec_debug`: `'true'` to enable logging IPsec debugging information (from the IPsec daemon);
+      * `ceIpsecPSK`: the IPsec PSK (which must be identical in all route agents across the cluster);
+      * `ceIpsecDebug`: `'true'` to enable logging IPsec debugging information (from the IPsec daemon);
       * `ceIpsecIkePort`: the IPsec IKE port (500 usually);
       * `ceIpsecNattPort`: the IPsec NAT traversal port (4500 usually);
       * `image`: the container image to use.
